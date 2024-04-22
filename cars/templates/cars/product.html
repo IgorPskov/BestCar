@@ -6,12 +6,26 @@
     <div class="card mb-4 custom-shadow">
         <div class="row">
             <!-- Миниатюры -->
-            <div class="col-md-4">
-                <img src="../deps/images/goods/set of tea table and three chairs.jpg"
-                    class="img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal1">
+            <div class="col-md-5">
+                <img src="../../../static/deps/images/goods/vesta.jpg"
+                class="img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal1">
             </div>
-            <div class="col-md-4 ">
-                <p class="product_id mt-3">id: 002654</p>
+            <div class="col-md-4">                        
+                <h2><strong>LADA Vesta&nbsp;</strong></h2>
+                <p><img src="{% static "deps/icons/calendar.svg" %}" alt="Calendar"
+                    width="25" height="25">&nbsp; &nbsp;Год выпуска: 2024</p>
+                <p><img src="{% static "deps/icons/engine.svg" %}" alt="Engine"
+                    width="25" height="25">&nbsp; &nbsp;Объем двигателя: 1.6 л.</p>
+                <p><img src="{% static "deps/icons/power.svg" %}" alt="Power"
+                    width="25" height="25">&nbsp; &nbsp;Мощность двигателя: 106 л.с.</p>
+                <p><img src="{% static "deps/icons/road.svg" %}" alt="Road"
+                    width="25" height="25">&nbsp; &nbsp;Пробег: 0 км</p>
+                <p><img src="{% static "deps/icons/gearbox.svg" %}" alt="Gearbox"
+                    width="25" height="25">&nbsp; &nbsp;Коробка передач: Механическая&nbsp;</p>
+                <p><img src="{% static "deps/icons/paint.svg" %}" alt="Paint"
+                    width="25" height="25">&nbsp; &nbsp;Цвет: красный&nbsp;</p>
+                <p><img src="{% static "deps/icons/fuel.svg" %}" alt="Fuel"
+                    width="25" height="25">&nbsp; &nbsp;Топливо: бензин&nbsp;</p>
             </div>
             <!-- Увеличить изображение в модальном окне -->
             <div class="modal fade" id="imageModal1" tabindex="-1"
@@ -19,13 +33,31 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="imageModal1Label">Изображение 1</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Закрыть"></button>
+                            <h5 class="modal-title" id="imageModalLabel">Изображения</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                         </div>
                         <div class="modal-body">
-                            <img src="../deps/images/goods/set of tea table and three chairs.jpg"
-                                class="img-fluid" alt="Изображение 1">
+                            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <img src="../../../static/deps/images/goods/vesta.jpg" class="d-block w-100" alt="Изображение 1">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img src="../../../static/deps/images/goods/vesta2.jpg" class="d-block w-100" alt="Изображение 2">
+                                    </div>
+                                    <!-- Добавьте сколько угодно слайдов, каждый с классом carousel-item -->
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                                    data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Предыдущий</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                                    data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Следующий</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
