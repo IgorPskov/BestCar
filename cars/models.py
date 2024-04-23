@@ -1,6 +1,7 @@
 from unicodedata import category
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from decimal import Decimal
 
 class Categories(models.Model):
     name = models.CharField(max_length=150, unique=True, verbose_name='Название')
@@ -86,4 +87,12 @@ class Products(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def display_id(self):
+        return f"{self.id:05}"
 
+    def sell_price(self):
+        if self.discount:
+            return round(Decimal(self.price) - Decimal(self.price)/100*self.discount, 0)
+        
+        return self.price
