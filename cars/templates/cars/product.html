@@ -66,6 +66,39 @@
         <!-- Описание товара -->
         <div class="card-body">
             <p class="card-text">Цена: <strong>150.00 $</strong></p>
+
+            <!-- Кнопка "Рассчитать рассрочку" -->
+            <button type="button" class="btn btn-primary btn-credit" data-bs-toggle="modal" data-bs-target="#installmentModal">
+                Рассчитать рассрочку
+            </button>
+
+            <!-- Модальное окно -->
+            <div class="modal fade" id="installmentModal" tabindex="-1" aria-labelledby="installmentModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="installmentModalLabel">Рассчитать рассрочку</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Выберите срок рассрочки:</p>
+                            <select id="installmentTerm" class="form-select mb-3">
+                                <option value="24">На 24 месяца</option>
+                                <option value="36">На 36 месяцев</option>
+                                <option value="60">На 60 месяцев</option>
+                            </select>
+                            <button type="button" class="btn btn-primary" onclick="calculateInstallment()">Рассчитать</button>
+                            <!-- Этот элемент будет содержать результат расчета -->
+                            <div id="installmentResult" class="mt-3 p-3 border rounded"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <h5 class="card-title">Чайный столик и три стула</h5>
             <p class="card-text">Комплект из трёх стульев и дизайнерский столик для гостинной
                 комнаты.</p>

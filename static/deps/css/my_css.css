@@ -1,5 +1,5 @@
 body {
-  background-image: url("../images/bg-image.jpg");
+  background-image: url("../images/bg-image.png");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center center;
@@ -35,4 +35,31 @@ body {
   top: 80%;
   border-radius: 15px;
   font-size: 0.7rem;
+}
+
+.card-text {
+  font-size: 18px; /* Устанавливаем размер шрифта */
+  color: #333; /* Цвет текста */
+  font-weight: bold; /* Жирный текст */
+}
+
+.card-text strong {
+  font-size: 20px; /* Увеличиваем размер жирного текста */
+  color: rgb(255, 0, 0); /* Цвет жирного текста */
+}
+
+.btn-credit {
+  margin-bottom: 16px;
+}
+
+.navbar-nav .nav-link:hover {
+  color: red !important; /* Красный цвет текста при наведении */
+}
+
+.dropdown-menu a.dropdown-item:hover {
+  color: red !important; /* Изменение цвета текста подпунктов меню */
+}
+
+.navbar-brand:hover {
+  color: red !important; /* Изменение цвета текста надписи BestCar */
 }
