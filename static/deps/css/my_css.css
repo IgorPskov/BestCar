@@ -63,6 +63,9 @@ body {
 .navbar-brand:hover {
   color: red !important; /* Изменение цвета текста надписи BestCar */
 }
+.btn-secondary:hover {
+  color: red !important; /* Изменение цвета текста надписи BestCar */
+}
 
 .catalog {
   min-height: 78vh

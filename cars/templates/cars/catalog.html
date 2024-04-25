@@ -1,46 +1,63 @@
 {% extends "main/base.html" %}
 {% load static %}
 {% load humanize %}
+{% load cars_tags %}
 
 {% block content %}
 <div class = "container">
     <div class="row">
-        <!-- Форма фильтров -->
-        <div class="dropdown mb-2">
-            <button class="btn btn-secondary dropdown-toggle btn-dark" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                Фильтры
-            </button>
+        <!-- Кнопка для открытия модального окна -->
+        <button type="button" class="btn btn-secondary btn-dark" data-bs-toggle="modal" data-bs-target="#filtersModal">
+            Фильтры
+        </button>
 
-            <form action="" method="get" class="dropdown-menu bg-dark" data-bs-theme="dark">
-                <div class="form-check text-white mx-3">
-                    <input class="form-check-input" type="checkbox" name="on_sale" id="flexCheckDefault" value="on">
-                    <input type="hidden" name="q" value="request.GET.q">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Товары по акции
-                    </label>
+        <!-- Модальное окно с фильтрами -->
+        <div class="modal fade" id="filtersModal" tabindex="-1" aria-labelledby="filtersModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark text-white">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="filtersModalLabel">Фильтры</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url "catalog:index" slug_url %}" method="get">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="on_sale" id="flexCheckDefault" value="on"
+                                {% if request.GET.on_sale == 'on' %}checked{% endif %}>
+                                {% comment %}<input type="hidden" name="q" value="request.GET.q">{% endcomment %}
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Товары по акции
+                                </label>
+                            </div>
+                            <p class="mt-3">Сортировать:</p>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="order_by_price" id="flexRadioDefault1" value="default"
+                                    {% if not request.GET.order_by_price or request.GET.order_by_price == 'default' %}checked{% endif %}>
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    По умолчанию
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="order_by_price" id="flexRadioDefault2" value="price"
+                                    {% if request.GET.order_by_price == 'price' %}checked{% endif %}>
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    От дешевых к дорогим
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="order_by_price" id="flexRadioDefault3" value="-price"
+                                    {% if request.GET.order_by_price == '-price' %}checked{% endif %}>
+                                <label class="form-check-label" for="flexRadioDefault3">
+                                    От дорогих к дешевым
+                                </label>
+                            </div>
+                            <div class="mt-3 text-center">
+                                <button type="submit" class="btn btn-primary">Применить</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <p class="text-white mx-3 mt-3">Сортировать:</p>
-                <div class="form-check text-white mx-3">
-                    <input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault1" value="default" checked>
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        По умолчанию
-                    </label>
-                </div>
-                <div class="form-check text-white mx-3">
-                    <input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault2" value="price">
-                    <label class="form-check-label" for="flexRadioDefault2">
-                        От дешевых к дорогим
-                    </label>
-                </div>
-                <div class="form-check text-white mx-3">
-                    <input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault3" value="-price">
-                    <label class="form-check-label" for="flexRadioDefault3">
-                        От дорогих к дешевым
-                    </label>
-                </div>
-                <button type="submit" class="btn btn-primary mx-3 mt-3">Применить</button>
-            </form>
+            </div>
         </div>
 
         {% for product in cars %}
@@ -86,25 +103,19 @@
             <div class="custom-shadow d-flex">
 
                 <li class="page-item {% if not cars.has_previous %} disabled {% endif %}">
-                    <a class="page-link" href="{% if cars.has_previous %}?page={{cars.previous_page_number}}
-                    {% else %}
-                    #
-                    {% endif %}">Назад</a>
+                    <a class="page-link" href="{% if cars.has_previous %}?{% change_params page=cars.previous_page_number %}{% else %}#{% endif %}">Назад</a>
                 </li>
 
                 {% for page in cars.paginator.page_range %}
                     {% if page >= cars.number|add:-2 and page <= cars.number|add:2 %}
                         <li class="page-item {% if cars.number == page %} active {% endif %}">
-                            <a class="page-link" href="?page={{page}}">{{ page }}</a>
+                            <a class="page-link" href="?{% change_params page=page %}">{{ page }}</a>
                         </li>
                     {% endif %}              
                 {% endfor %}
 
                 <li class="page-item {% if not cars.has_next %} disabled {% endif %}">
-                    <a class="page-link" href="{% if cars.has_next %}?page={{cars.next_page_number}}
-                    {% else %}
-                    #
-                    {% endif %}">Вперед</a>
+                    <a class="page-link" href="{% if cars.has_next %}?{% change_params page=cars.next_page_number %}{% else %}#{% endif %}">Вперед</a>
                 </li>
 
             </div>
