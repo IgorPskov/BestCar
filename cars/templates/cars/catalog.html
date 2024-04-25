@@ -3,7 +3,7 @@
 {% load humanize %}
 
 {% block content %}
-<div class = "container catalog">
+<div class = "container">
     <div class="row">
         <!-- Форма фильтров -->
         <div class="dropdown mb-2">
@@ -86,8 +86,7 @@
             <div class="custom-shadow d-flex">
 
                 <li class="page-item {% if not cars.has_previous %} disabled {% endif %}">
-                    <a class="page-link" href="{% if cars.has_previous %}
-                    {% url "catalog:index" slug_url cars.previous_page_number %}
+                    <a class="page-link" href="{% if cars.has_previous %}?page={{cars.previous_page_number}}
                     {% else %}
                     #
                     {% endif %}">Назад</a>
@@ -96,14 +95,13 @@
                 {% for page in cars.paginator.page_range %}
                     {% if page >= cars.number|add:-2 and page <= cars.number|add:2 %}
                         <li class="page-item {% if cars.number == page %} active {% endif %}">
-                            <a class="page-link" href="{% url "catalog:index" slug_url page %}">{{ page }}</a>
+                            <a class="page-link" href="?page={{page}}">{{ page }}</a>
                         </li>
                     {% endif %}              
                 {% endfor %}
 
                 <li class="page-item {% if not cars.has_next %} disabled {% endif %}">
-                    <a class="page-link" href="{% if cars.has_next %}
-                    {% url "catalog:index" slug_url cars.next_page_number %}
+                    <a class="page-link" href="{% if cars.has_next %}?page={{cars.next_page_number}}
                     {% else %}
                     #
                     {% endif %}">Вперед</a>
