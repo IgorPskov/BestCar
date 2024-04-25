@@ -1,11 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import get_list_or_404, render
 from django.template import context
 
 from cars.models import Products
 
-def catalog(request):
+def catalog(request, category_slug):
 
-    cars = Products.objects.all()
+    if category_slug == 'all':
+        cars = Products.objects.all()
+    else:
+        cars = get_list_or_404(Products.objects.filter(category__slug=category_slug))
 
     context = {
         'title': 'BestCar - Каталог',
