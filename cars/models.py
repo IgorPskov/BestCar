@@ -37,10 +37,10 @@ class Products(models.Model):
         verbose_name='Пробег'
     )
     gearbox_choices = [
-    ('manual', 'Механическая'),
-    ('automatic', 'Автомат'),
-    ('robotic', 'Робот'),
-    ('variator', 'Вариатор'),
+    ('Механическая', 'Механическая'),
+    ('Автомат', 'Автомат'),
+    ('Робот', 'Робот'),
+    ('Вариатор', 'Вариатор'),
     ]   
     gearbox = models.CharField(
         choices=gearbox_choices,
@@ -48,14 +48,14 @@ class Products(models.Model):
         verbose_name='Коробка передач'
     )
     color_choices = [
-        ('black', 'Черный'),
-        ('white', 'Белый'),
-        ('grey', 'Серый'),
-        ('red', 'Красный'),
-        ('blue', 'Синий'),
-        ('yellow', 'Желтый'),
-        ('green', 'Зеленый'),
-        ('brown', 'Коричневый'),
+        ('Черный', 'Черный'),
+        ('Белый', 'Белый'),
+        ('Серый', 'Серый'),
+        ('Красный', 'Красный'),
+        ('Синий', 'Синий'),
+        ('Желтый', 'Желтый'),
+        ('Зеленый', 'Зеленый'),
+        ('Коричневый', 'Коричневый'),
     ]
     color = models.CharField(
         choices=color_choices,
@@ -63,9 +63,9 @@ class Products(models.Model):
         verbose_name='Цвет'
     )
     fuel_choices=[
-        ('gasoline', 'Бензин'),
-        ('diesel', 'Дизель'),
-        ('electric', 'Электро'),
+        ('Бензин', 'Бензин'),
+        ('Дизель', 'Дизель'),
+        ('Электро', 'Электро'),
     ]
     fuel = models.CharField(
         choices=fuel_choices,
