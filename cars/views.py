@@ -1,11 +1,12 @@
 from django.core.paginator import Paginator
-from django.shortcuts import get_list_or_404, redirect, render
+from django.shortcuts import get_list_or_404, get_object_or_404, redirect, render
 from django.template import context
 from django.db.models import Q
 
 from cars.models import Products
+from cars.utils import q_search
 
-def catalog(request, category_slug):
+def catalog(request, category_slug=None):
 
     #Страница
     page = request.GET.get('page', 1)
@@ -35,11 +36,15 @@ def catalog(request, category_slug):
     min_mileage = request.GET.get('min_mileage', None)
     max_mileage = request.GET.get('max_mileage', None)
 
+    #Поиск
+    query = request.GET.get('q', None)
 
     if category_slug == 'all':
         cars = Products.objects.all()
+    elif query:
+        cars = q_search(query)
     else:
-        cars = get_list_or_404(Products.objects.filter(category__slug=category_slug))
+        cars = Products.objects.filter(category__slug=category_slug)
 
 
     #Создаем 2 пустых Q списка
@@ -65,6 +70,7 @@ def catalog(request, category_slug):
         fuel_objects |= Q(fuel='Электро')
 
 
+   
     #Присваимаем cars отфильтрованный список
     cars = cars.filter(gearbox_objects).filter(fuel_objects)
 
