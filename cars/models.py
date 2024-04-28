@@ -97,3 +97,5 @@ class Products(models.Model):
             return round(Decimal(self.price) - Decimal(self.price)/100*self.discount, 0)
         
         return self.price
+    
+    

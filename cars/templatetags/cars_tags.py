@@ -9,7 +9,13 @@ register = template.Library()
 
 @register.simple_tag()
 def tag_categories():
-    return Categories.objects.all()
+    categories = Categories.objects.all().order_by('name')
+
+    # Создаем объект "Все марки" и добавляем его в начало списка
+    all_categories = Categories(name="Все марки", slug="all")
+    categories = [all_categories] + list(categories)
+
+    return categories
 
 @register.simple_tag(takes_context=True)
 def change_params(context, **kwargs):

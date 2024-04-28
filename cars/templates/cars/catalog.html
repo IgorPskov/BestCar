@@ -4,7 +4,7 @@
 {% load cars_tags %}
 
 {% block content %}
-<div class = "container">
+<div class = "container catalog">
     <div class="row">
         <!-- Кнопка для открытия модального окна -->
         <button type="button" class="btn btn-secondary btn-dark" data-bs-toggle="modal" data-bs-target="#filtersModal">
@@ -21,39 +21,137 @@
                     </div>
                     <div class="modal-body">
                         <form action="{% url "catalog:index" slug_url %}" method="get">
-                            <div class="form-check">
+
+                            <div class="form-check mt-3">
                                 <input class="form-check-input" type="checkbox" name="on_sale" id="flexCheckDefault" value="on"
                                 {% if request.GET.on_sale == 'on' %}checked{% endif %}>
                                 {% comment %}<input type="hidden" name="q" value="request.GET.q">{% endcomment %}
                                 <label class="form-check-label" for="flexCheckDefault">
-                                    Товары по акции
+                                    Автомобили со скидкой
                                 </label>
                             </div>
+
+                            <p class="mt-3 mb-0">Тип коробки передач: </p>
+                            <div class="form-check">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Механическая
+                                </label>
+                                <input class="form-check-input" type="checkbox" name="gearbox_manual" id="flexCheckDefault" value="on"
+                                {% if request.GET.gearbox_manual == 'on' %}checked{% endif %}>
+                                {% comment %}<input type="hidden" name="q" value="request.GET.q">{% endcomment %}   
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Автомат
+                                </label>
+                                <input class="form-check-input" type="checkbox" name="gearbox_automatic" id="flexCheckDefault" value="on"
+                                {% if request.GET.gearbox_automatic == 'on' %}checked{% endif %}>
+                                {% comment %}<input type="hidden" name="q" value="request.GET.q">{% endcomment %}   
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Робот
+                                </label>
+                                <input class="form-check-input" type="checkbox" name="gearbox_robotic" id="flexCheckDefault" value="on"
+                                {% if request.GET.gearbox_robotic == 'on' %}checked{% endif %}>
+                                {% comment %}<input type="hidden" name="q" value="request.GET.q">{% endcomment %}   
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Вариатор
+                                </label>
+                                <input class="form-check-input" type="checkbox" name="gearbox_variator" id="flexCheckDefault" value="on"
+                                {% if request.GET.gearbox_variator == 'on' %}checked{% endif %}>
+                                {% comment %}<input type="hidden" name="q" value="request.GET.q">{% endcomment %}   
+                            </div>
+
+
+                            <p class="mt-3 mb-0">Тип топлива: </p>
+                            <div class="form-check">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Бензин
+                                </label>
+                                <input class="form-check-input" type="checkbox" name="fuel_gasoline" id="flexCheckDefault" value="on"
+                                {% if request.GET.fuel_gasoline == 'on' %}checked{% endif %}>
+                                {% comment %}<input type="hidden" name="q" value="request.GET.q">{% endcomment %}   
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Дизель
+                                </label>
+                                <input class="form-check-input" type="checkbox" name="fuel_diesel" id="flexCheckDefault" value="on"
+                                {% if request.GET.fuel_diesel == 'on' %}checked{% endif %}>
+                                {% comment %}<input type="hidden" name="q" value="request.GET.q">{% endcomment %}   
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Электро
+                                </label>
+                                <input class="form-check-input" type="checkbox" name="fuel_electricity" id="flexCheckDefault" value="on"
+                                {% if request.GET.fuel_electricity == 'on' %}checked{% endif %}>
+                                {% comment %}<input type="hidden" name="q" value="request.GET.q">{% endcomment %}   
+                            </div>
+
                             <p class="mt-3">Сортировать:</p>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="order_by_price" id="flexRadioDefault1" value="default"
-                                    {% if not request.GET.order_by_price or request.GET.order_by_price == 'default' %}checked{% endif %}>
-                                <label class="form-check-label" for="flexRadioDefault1">
-                                    По умолчанию
-                                </label>
+
+                            <select name="sort_type" id="sort_type">
+                                <option value="default" {% if request.GET.sort_type == 'default' %}selected{% endif %}>По умолчанию</option>
+                                <option value="brand_asc" {% if request.GET.sort_type == 'brand_asc' %}selected{% endif %}>По названию марки</option>
+                                <option value="price_asc" {% if request.GET.sort_type == 'price_asc' %}selected{% endif %}>По цене: от дешевых к дорогим</option>
+                                <option value="price_desc" {% if request.GET.sort_type == 'price_desc' %}selected{% endif %}>По цене: от дорогих к дешевым</option>
+                                <option value="year_asc" {% if request.GET.sort_type == 'year_asc' %}selected{% endif %}>По году: от более старых к более новым</option>
+                                <option value="year_desc" {% if request.GET.sort_type == 'year_desc' %}selected{% endif %}>По году: от более новых к более старым</option>
+                                <option value="power_asc" {% if request.GET.sort_type == 'power_asc' %}selected{% endif %}>По мощности: от менее мощных к более мощным</option>
+                                <option value="power_desc" {% if request.GET.sort_type == 'power_desc' %}selected{% endif %}>По мощности: от более мощных к менее мощным</option>
+                                <option value="mileage_asc" {% if request.GET.sort_type == 'mileage_asc' %}selected{% endif %}>По пробегу: от меньшего к большему</option>
+                                <option value="mileage_desc" {% if request.GET.sort_type == 'mileage_desc' %}selected{% endif %}>По пробегу: от большего к меньшему</option>
+                            </select>
+
+
+                            <p class="mt-3">Цена:</p>
+                            <div class="mt-3 d-flex">
+                                <label for="min_price" class="form-label me-2">от</label>
+                                <input type="number" class="form-control me-2" id="min_price" name="min_price" 
+                                    {% if request.GET.min_price %}value="{{ request.GET.min_price }}"{% endif %} placeholder="Минимальная цена">
+                                <span class="me-2">до</span>
+                                <input type="number" class="form-control me-2" id="max_price" name="max_price" 
+                                    {% if request.GET.max_price %}value="{{ request.GET.max_price }}"{% endif %} placeholder="Максимальная цена">
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="order_by_price" id="flexRadioDefault2" value="price"
-                                    {% if request.GET.order_by_price == 'price' %}checked{% endif %}>
-                                <label class="form-check-label" for="flexRadioDefault2">
-                                    От дешевых к дорогим
-                                </label>
+
+                            <p class="mt-3">Год:</p>
+                            <div class="mt-3 d-flex">
+                                <label for="min_year" class="form-label me-2">от</label>
+                                <input type="number" class="form-control me-2" id="min_year" name="min_year"
+                                    {% if request.GET.min_year %}value="{{ request.GET.min_year }}"{% endif %} placeholder="Минимальный год">
+                                <span class="me-2">до</span>                          
+                                <input type="number" class="form-control me-2" id="max_year" name="max_year" 
+                                    {% if request.GET.max_year %}value="{{ request.GET.max_year }}"{% endif %} placeholder="Максимальный год">
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="order_by_price" id="flexRadioDefault3" value="-price"
-                                    {% if request.GET.order_by_price == '-price' %}checked{% endif %}>
-                                <label class="form-check-label" for="flexRadioDefault3">
-                                    От дорогих к дешевым
-                                </label>
+
+                            <p class="mt-3">Мощность:</p>
+                            <div class="mt-3 d-flex">
+                                <label for="min_power" class="form-label me-2">от</label>
+                                <input type="number" class="form-control me-2" id="min_power" name="min_power"
+                                    {% if request.GET.min_power %}value="{{ request.GET.min_power }}"{% endif %} placeholder="Минимальная мощность">
+                                <span class="me-2">до</span>                          
+                                <input type="number" class="form-control me-2" id="max_power" name="max_power" 
+                                    {% if request.GET.max_power %}value="{{ request.GET.max_power }}"{% endif %} placeholder="Максимальная мощность">
                             </div>
+
+                            <p class="mt-3">Пробег:</p>
+                            <div class="mt-3 d-flex">
+                                <label for="min_mileage" class="form-label me-2">от</label>
+                                <input type="number" class="form-control me-2" id="min_mileage" name="min_mileage"
+                                    {% if request.GET.min_mileage %}value="{{ request.GET.min_mileage }}"{% endif %} placeholder="Минимальный пробег">
+                                <span class="me-2">до</span>                          
+                                <input type="number" class="form-control me-2" id="max_mileage" name="max_mileage" 
+                                    {% if request.GET.max_mileage %}value="{{ request.GET.max_mileage }}"{% endif %} placeholder="Максимальный пробег">
+                            </div>
+
                             <div class="mt-3 text-center">
                                 <button type="submit" class="btn btn-primary">Применить</button>
-                            </div>
+                                <button type="submit" class="btn btn-secondary ms-2" name="reset_filters">Сбросить фильтры</button>
+                            </div>                  
                         </form>
                     </div>
                 </div>
