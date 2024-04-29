@@ -176,8 +176,8 @@
             </div>
         </div>
 
-        {% if request.GET.q %}
-            <h3 class="mt-4">Результаты поиска по запросу {{ request.GET.q }}</h3>
+        {% if request.GET.q and request.GET.q|length >= 2 %}
+            <h3 class="mt-4">Результаты поиска по запросу {{ request.GET.q }} </h3>
         {% if not cars %}
             <h2 class="mt-4">По запросу ничего не найдено</h2>
         {% endif %}

@@ -86,19 +86,36 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="installmentModalLabel">Рассчитать рассрочку</h5>
+                            <h5 class="modal-title" id="installmentModalLabel">Варианты рассрочки</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                         </div>
                         <div class="modal-body">
-                            <p>Выберите срок рассрочки:</p>
-                            <select id="installmentTerm" class="form-select mb-3">
-                                <option value="24">На 24 месяца</option>
-                                <option value="36">На 36 месяцев</option>
-                                <option value="60">На 60 месяцев</option>
-                            </select>
-                            <button type="button" class="btn btn-primary" onclick="calculateInstallment()">Рассчитать</button>
-                            <!-- Этот элемент будет содержать результат расчета -->
-                            <div id="installmentResult" class="mt-3 p-3 border rounded"></div>
+                            <form id="installmentForm" >
+                                <input type="hidden" name="product_slug" value="{{ product.slug }}">
+                                <p><strong>Цена товара: {{ product.sell_price }} руб.</strong></p>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Срок рассрочки</th>
+                                            <th>Ежемесячный платеж</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>24 месяца</td>
+                                            <td>{{ installment_24 }} руб.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>36 месяцев</td>
+                                            <td>{{ installment_36 }} руб.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>60 месяцев</td>
+                                            <td>{{ installment_60 }} руб.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>

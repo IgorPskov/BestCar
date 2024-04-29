@@ -5,14 +5,16 @@ from django.contrib.postgres.search import (
     SearchRank,
     SearchHeadline,
 )
+from django.shortcuts import redirect
 
+from cars.models import Categories
 from cars.models import Products
 
 
 def q_search(query):
 
-    if len(query) >= 2:
-
+    if query and len(query) >= 2:
+        
         vector = SearchVector("category__name", "name", "description")
         query = SearchQuery(query)
 
@@ -50,17 +52,18 @@ def q_search(query):
         )
 
         return result
+    
     else:
 
-        return Products.objects.none()
+        return Products.objects.all()
+    
+def calculate_installment(sell_price, term):
+    # Коэффициенты для расчета рассрочки
+    coefficients = {
+        24: 1.1,
+        36: 1.15,
+        60: 1.2
+    }
 
-    # keywords = [word for word in query.split() if len(word) > 2]
-
-    # q_objects = Q()
-
-    # for token in keywords:
-    #     q_objects |= Q(description__icontains=token)
-    #     q_objects |= Q(name__icontains=token)
-    #     q_objects |= Q(category__name__icontains=token)
-
-    # return Products.objects.filter(q_objects)
+    # Рассчитываем рассрочку по формуле: цена * коэффициент / срок
+    return round(sell_price * coefficients[term] / term, 2)

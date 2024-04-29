@@ -2,9 +2,12 @@ from django.core.paginator import Paginator
 from django.shortcuts import get_list_or_404, get_object_or_404, redirect, render
 from django.template import context
 from django.db.models import Q
+from django.template.loader import render_to_string
+
 
 from cars.models import Products
 from cars.utils import q_search
+from cars.utils import calculate_installment
 
 def catalog(request, category_slug=None):
 
@@ -41,7 +44,7 @@ def catalog(request, category_slug=None):
 
     if category_slug == 'all':
         cars = Products.objects.all()
-    elif query:
+    elif query != None:
         cars = q_search(query)
     else:
         cars = Products.objects.filter(category__slug=category_slug)
@@ -194,7 +197,7 @@ def catalog(request, category_slug=None):
 
     if 'reset_filters' in request.GET:
         # Очищаем GET-параметры фильтров и перенаправляем на страницу каталога
-        return redirect('catalog:index', category_slug=category_slug)
+        return redirect('catalog:index', category_slug='all')
 
     paginator = Paginator(cars, 6)
     current_page = paginator.page(int(page))
@@ -212,12 +215,21 @@ def product(request, product_slug):
 
     product = Products.objects.get(slug=product_slug)
 
+    sell_price = product.sell_price() 
+    sell_price = float(sell_price)
+    #Рассрочка
+    installment_24 = calculate_installment(sell_price, 24)
+    installment_36 = calculate_installment(sell_price, 36)
+    installment_60 = calculate_installment(sell_price, 60)
+
     context = {
-        'product': product
+        'product': product,
+        'installment_24': installment_24,
+        'installment_36': installment_36,
+        'installment_60': installment_60,
     }
 
     return render(request, 'cars/product.html', context=context)
-
 
 
 
