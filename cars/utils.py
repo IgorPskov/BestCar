@@ -1,4 +1,3 @@
-from turtle import Vec2D
 from django.db.models import Q
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 
@@ -12,7 +11,7 @@ def q_search(query):
         vector = SearchVector("category__name", "name", "description")
         query = SearchQuery(query)
 
-        return Products.objects.annotate(rank=SearchRank(vector, query).order_by("-rank"))
+        return Products.objects.annotate(rank=SearchRank(vector, query)).order_by("-rank")
 
     else:
         
