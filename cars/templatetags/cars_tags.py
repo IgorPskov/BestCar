@@ -11,9 +11,14 @@ register = template.Library()
 def tag_categories():
     categories = Categories.objects.all().order_by('name')
 
-    # Создаем объект "Все марки" и добавляем его в начало списка
+    # Создаем объект "Все марки" 
     all_categories = Categories(name="Все марки", slug="all")
-    categories = [all_categories] + list(categories)
+
+    #Удаляем "Все марки" из конца списка
+    categories = list(categories.exclude(slug='all'))
+
+    # Добавляем "Все марки" в начало списка
+    categories.insert(0, all_categories)
 
     return categories
 
