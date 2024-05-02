@@ -12,7 +12,7 @@ body {
 }
 
 .custom-shadow {
-  box-shadow: 5px 5px 25px 19px #000000;
+  box-shadow: 15px 15px 15px 10px #3b3a3a;
 }
 
 .product_id {
@@ -20,15 +20,18 @@ body {
   font-size: 15px;
 }
 
-.badge.bg-warning.text-dark {
+.badge.bg-dark {
   position: absolute;
-  top: 10px;
-  right: 5px;
-  z-index: 1;
+  top: 5px;
+  left: 5px;
+  z-index: 5;
   padding: 5px 10px;
-  border-radius: 3px;
+  border-radius: 20px;
   font-size: 1rem;
-  box-shadow: 2px 2px 15px 9px #000000;
+  font-weight: 500;
+  font-family: cursive;
+  color: rgb(240, 84, 84);
+  box-shadow: 2px 2px 15px 4px #914040; 
 }
 
 .badge-banner {
@@ -70,4 +73,15 @@ body {
 .catalog {
   min-height: 78vh
 } 
+
+.add-to-favorite:hover img {
+  /* Изменяем цвет иконки */
+  filter: invert(21%) sepia(100%) saturate(7414%) hue-rotate(359deg) brightness(94%) contrast(117%);
+}
+
+.add-to-cart:hover img {
+  /* Изменяем цвет иконки */
+  filter: invert(85%) sepia(100%) saturate(750%) hue-rotate(50deg) brightness(100%) contrast(100%);
+}
+
 

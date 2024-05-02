@@ -1,43 +1,45 @@
 {% load static %}
+{% load humanize %}
+
+{% load carts_tags %}
+
+{% user_carts request as carts %}
+
 
 <div class="card mb-3 text-bg-light shadow-lg">
+    
+    {% for cart in carts %}
     <div class="card-header">
-        <h5 class="card-title">Товар</h5>
+        <a href="{% url "catalog:product" cart.product.slug %}">
+            <h5 class="card-title">{{cart.product.category}} {{cart.product.name}}</h5>
+        </a>
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
-            <div class="row text-center">
-                <div class="col p-0">
-                    <div class="input-group">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-dark btn-sm decrement"
-                                data-cart-id="" data-cart-change-url="">-</button>
-                        </span>
-                        <input type="text" class="form-control number" value="1"
-                            readonly>
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-dark btn-sm increment"
-                                data-cart-id="" data-cart-change-url="">+</button>
-                        </span>
-                    </div>
+            <div class="row text-center align-items-center">
+                <div class="col p-0 d-flex align-items-start">
+                    {% if cart.product.image %}
+                    <img src="{{ cart.product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="width: 75%; height: auto;">
+                    {% else %}
+                    <img src={% static "deps/images/Not found image.jpg" %} class="card-img-top" alt="...">
+                    {% endif %}
                 </div>
-                <div class="col p-0">
-                    <p>x 100.00 = </p>
-                </div>
-                <div class="col p-0"><strong>100.00 $</strong></div>
+                <h5 class="col p-0"><strong>Цена: {{cart.product_price|intcomma}} RUB</strong></h5>
                 <div class="col p-0">
                     <a href="{% url "cart:cart_remove" 1 %}" class="remove-from-cart" data-cart-id="">
                         <img class="mx-1" src="{% static "deps/icons/trash3-fill.svg" %}"
-                            alt="Catalog Icon" width="16" height="16">
+                            alt="Catalog Icon" width="35" height="35">
                     </a>
                 </div>
             </div>
         </li>
     </ul>
+    {% endfor %}
+    
 </div>
 <div class="card mb-3 shadow-lg">
     <div class="card-footer">
-        <p class="float-left">Итого <strong>1</strong> товар(а) на сумму</p>
-        <h4 class="float-left"><strong>100.00 $</strong></h4>
+        <p class="float-left">Итого <strong>{{carts.total_quantity}}</strong> авто на сумму</p>
+        <h4 class="float-left"><strong>{{carts.total_price|intcomma}} RUB</strong></h4>
     </div>
 </div>
