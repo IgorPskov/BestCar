@@ -5,6 +5,7 @@ from django.template.loader import render_to_string
 
 from carts.models import Cart, Favorite
 from cars.models import Products
+from carts.templatetags.carts_tags import user_favorites
 from carts.utils import get_user_favorites
 
 def cart_add(request, product_slug):
@@ -55,7 +56,7 @@ def favorite_add(request):
             Favorite.objects.create(user=request.user, product=product)
             response_data = {
                 "already_in_favorite": False,
-                "success_message": "Товар добавлен в избранное",
+                "success_message": "Автомобиль добавлен в избранное",
             }
     
     user_favorite = get_user_favorites(request)
@@ -66,9 +67,22 @@ def favorite_add(request):
 
     return JsonResponse(response_data)
 
-def favorite_remove(request, favorite_id):
+def favorite_remove(request):
+
+    favorite_id = request.POST.get("favorite_id")
 
     favorite = Favorite.objects.get(id=favorite_id)
+    quantity = Favorite.objects.filter(user=request.user).count()
     favorite.delete()
 
-    return redirect(request.META['HTTP_REFERER'])
+    user_favorite = get_user_favorites(request)
+    favorite_items_html = render_to_string(
+        "carts/includes/included_favorite.html", {"favorites": user_favorite}, request=request)
+
+    response_data = {
+        "message": "Автомобиль удален из избранного",
+        "favorite_items_html": favorite_items_html,
+        "quantity_deleted": quantity, 
+    }
+
+    return JsonResponse(response_data)

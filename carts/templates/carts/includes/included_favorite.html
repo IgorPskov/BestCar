@@ -44,7 +44,9 @@
                     </a>
                 </div>
                 <div class="col-lg-1 p-0">
-                    <a href="{% url "cart:favorite_remove" favorite.id %}" class="remove-from-favorite" data-cart-id="">
+                    <a href="{% url "cart:favorite_remove" %}" class="remove-from-favorite" 
+                    data-favorite-id="{{ favorite.id }}">
+                        {% csrf_token %}
                         <img class="mx-1" src="{% static "deps/icons/trash3-fill.svg" %}"
                             alt="Catalog Icon" width="35" height="35">
                     </a>
