@@ -17,18 +17,20 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             {% if messages %}
-                {% for message in messages %}
-                    {% if message.tags == 'success' %}
-                        <div id="alert-message" class="position-fixed start-50 translate-middle-x z-3 alert alert-success fade show custom-shadow" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endif %}
-                    {% if message.tags == 'warning' %}
-                        <div id="alert-message" class="position-fixed start-50 translate-middle-x z-3 alert alert-danger fade show custom-shadow" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endif %}
-                {% endfor %}
+                <div id="messages-container">
+                    {% for message in messages %}
+                        {% if message.tags == 'success' %}
+                            <div id="success-message" class="position-fixed start-50 translate-middle-x z-3 alert alert-success fade show custom-shadow" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endif %}
+                        {% if message.tags == 'warning' %}
+                            <div id="warning-message" class="position-fixed start-50 translate-middle-x z-3 alert alert-danger fade show custom-shadow" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                 </div>
             {% else %}
                 <div id="jq-success-notification" class="position-fixed start-50 translate-middle-x z-3 alert alert-success fade show custom-shadow" style="display: none;" role="alert">
                 </div>
