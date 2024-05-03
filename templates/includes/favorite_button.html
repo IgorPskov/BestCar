@@ -8,7 +8,7 @@
         aria-expanded="false">
         <img class="mx-1" src="{% static "deps/icons/heart.svg" %}" alt="Catalog Icon" width="24"
             height="24">
-        <span id="goods-in-cart-count">{{ favorites.total_quantity }}</span>
+        <span id="cars-in-favorite-count">{{ favorites.total_quantity }}</span>
     </button>
 </div>
 <!-- Разметка модального окна корзины -->
@@ -22,7 +22,7 @@
             </div>
             <div class="modal-body">
                 <h3 class="text-center mb-4">Избранное</h3>
-                <div class="container" id="cart-items-container">
+                <div class="container" id="favorite-items-container">
                     <!-- Разметка корзины -->
                     {% include "carts/includes/included_favorite.html" %}
                     <!-- Закончилась разметка корзины -->

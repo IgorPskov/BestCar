@@ -129,7 +129,10 @@
             </div>
 
             <p class="card-text">{{ product.description }}</p>
-            <a href="{% url "cart:favorite_add" product.slug %}" class="btn btn-success add-to-favorite">Добавить в избранное</a>
+            <a href="{% url "cart:favorite_add" %}" class="btn btn-success add-to-favorite"
+            data-product-id="{{ product.id }}">
+            {% csrf_token %}
+            Добавить в избранное</a>
             <a href="{% url "cart:cart_add" product.slug %}" class="btn btn-secondary btn-dark add-to-cart ms-3">Добавить в корзину</a>
         </div>
     </div>

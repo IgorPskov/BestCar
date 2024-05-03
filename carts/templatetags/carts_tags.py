@@ -1,6 +1,7 @@
 from django import template
 
 from carts.models import Cart, Favorite
+from carts.utils import get_user_favorites
 
 
 register = template.Library()
@@ -13,5 +14,4 @@ def user_carts(request):
     
 @register.simple_tag()
 def user_favorites(request):
-    if request.user.is_authenticated:
-        return Favorite.objects.filter(user=request.user)
+    return get_user_favorites(request)
