@@ -21,8 +21,15 @@ def cart_add(request, product_slug):
 def cart_change(request, product_slug):
     ...
 
-def cart_remove(request, product_slug):
-    ...
+def cart_remove(request, cart_id):
+
+    cart = Cart.objects.get(id=cart_id)
+    cart.delete()
+
+    return redirect(request.META['HTTP_REFERER'])
+
+
+
 
 def favorite_add(request, product_slug):
     
@@ -38,5 +45,9 @@ def favorite_add(request, product_slug):
 
     return redirect(request.META['HTTP_REFERER'])
 
-def favorite_remove(request, product_slug):
-    ...
+def favorite_remove(request, favorite_id):
+
+    favorite = Favorite.objects.get(id=favorite_id)
+    favorite.delete()
+
+    return redirect(request.META['HTTP_REFERER'])
