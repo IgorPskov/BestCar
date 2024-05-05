@@ -6,44 +6,66 @@ from django.template.loader import render_to_string
 from carts.models import Cart, Favorite
 from cars.models import Products
 from carts.templatetags.carts_tags import user_favorites
-from carts.utils import get_user_favorites
+from carts.utils import get_user_carts, get_user_favorites
 
-def cart_add(request, product_slug):
-    
-    product = Products.objects.get(slug=product_slug)
+def cart_add(request):
+    product_id = request.POST.get("product_id")    
+    product = Products.objects.get(id=product_id)
+
+    product_category = product.category
+    product_name = product.name
 
     if request.user.is_authenticated:
         carts = Cart.objects.filter(user=request.user, product=product)
 
-        product_category = product.category
-        product_name = product.name
-
         if carts.exists():
-            messages.warning(request, "Этот автомобиль уже добавлен в вашу корзину")
+            # Если товар уже в избранном, возвращаем флаг already_in_favorite=True
+            response_data = {
+                "already_in_cart": True,
+                "warning_message": "Этот автомобиль уже добавлен к вам в корзину",
+            }
         else:
-            Cart.objects.create(user=request.user, product = product)
-    
+
+            Cart.objects.create(user=request.user, product=product)
             success_message = f"Автомобиль {product_category} {product_name} добавлен в корзину"
-            messages.success(request, success_message)
 
-    return redirect(request.META['HTTP_REFERER'])
+            response_data = {
+                "already_in_cart": False,
+                "success_message": success_message,
+            }
+    
+    user_cart = get_user_carts(request)
+    cart_items_html = render_to_string(
+        "carts/includes/included_cart.html", {"carts": user_cart}, request=request)
+
+    response_data["cart_items_html"] = cart_items_html
+
+    return JsonResponse(response_data)
     
 
-def cart_remove(request, cart_id):
+def cart_remove(request):
+    cart_id = request.POST.get("cart_id")
+
     cart = Cart.objects.get(id=cart_id)
-    
-    # Получаем информацию о товаре из объекта корзины
+
     product_category = cart.product.category
     product_name = cart.product.name
-    
-    # Удаляем объект корзины
+
+    quantity = Cart.objects.filter(user=request.user).count()
     cart.delete()
 
-    # Формируем сообщение об успешном удалении из корзины
-    success_message = f"Автомобиль {product_category} {product_name} удален из корзины"
-    messages.success(request, success_message)
+    user_cart = get_user_carts(request)
+    cart_items_html = render_to_string(
+        "carts/includes/included_cart.html", {"carts": user_cart}, request=request)
 
-    return redirect(request.META['HTTP_REFERER'])
+    success_message = f"Автомобиль {product_category} {product_name} удален из корзины"
+    response_data = {
+        "message": success_message,
+        "cart_items_html": cart_items_html,
+        "quantity_deleted": quantity, 
+    }
+
+    return JsonResponse(response_data)
 
 
 
