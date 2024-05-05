@@ -1,6 +1,5 @@
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
-from django.contrib import messages
 from django.template.loader import render_to_string
 
 from carts.models import Cart, Favorite
@@ -27,6 +26,26 @@ def cart_add(request):
         else:
 
             Cart.objects.create(user=request.user, product=product)
+            success_message = f"Автомобиль {product_category} {product_name} добавлен в корзину"
+
+            response_data = {
+                "already_in_cart": False,
+                "success_message": success_message,
+            }
+
+    else:
+        carts = Cart.objects.filter(
+            session_key = request.session.session_key, product = product)
+        
+        if carts.exists():
+            # Если товар уже в избранном, возвращаем флаг already_in_favorite=True
+            response_data = {
+                "already_in_cart": True,
+                "warning_message": "Этот автомобиль уже добавлен к вам в корзину",
+            }
+        else:
+
+            Cart.objects.create(session_key=request.session.session_key, product=product)
             success_message = f"Автомобиль {product_category} {product_name} добавлен в корзину"
 
             response_data = {
@@ -89,6 +108,26 @@ def favorite_add(request):
         else:
 
             Favorite.objects.create(user=request.user, product=product)
+            success_message = f"Автомобиль {product_category} {product_name} добавлен в избранное"
+
+            response_data = {
+                "already_in_favorite": False,
+                "success_message": success_message,
+            }
+
+    else:
+        favorites = Favorite.objects.filter(
+            session_key=request.session.session_key, product = product)
+        
+        if favorites.exists():
+            # Если товар уже в избранном, возвращаем флаг already_in_favorite=True
+            response_data = {
+                "already_in_favorite": True,
+                "warning_message": "Этот автомобиль уже добавлен к вам в избранное",
+            }
+        else:
+
+            Favorite.objects.create(session_key=request.session.session_key, product=product)
             success_message = f"Автомобиль {product_category} {product_name} добавлен в избранное"
 
             response_data = {

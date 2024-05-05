@@ -3,7 +3,7 @@
 
 {% block modal_favorite %}
 {% include "includes/favorite_button.html" %}
-{% endblock  %}
+{% endblock %}
 
 {% block content %}
 <div class="row">
@@ -16,11 +16,6 @@
                     {% include "carts/includes/included_cart.html" %}
                     <!-- Закончилась разметка корзины -->
                 </div>
-                {% if carts %}
-                    <a class="btn btn-secondary btn-dark" href="../orders/create_order.html">   
-                        Оформить заказ
-                </a>
-                {% endif %}
             </div>
         </div>
     </div>

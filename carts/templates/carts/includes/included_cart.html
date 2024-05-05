@@ -45,3 +45,9 @@
         <h4 class="float-left"><strong>{{carts.total_price|intcomma}} RUB</strong></h4>
     </div>
 </div>
+
+{% if carts %}
+    <a class="btn btn-secondary btn-dark" href="../orders/create_order.html">   
+        Оформить заказ
+    </a>
+{% endif %}
