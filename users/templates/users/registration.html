@@ -74,6 +74,16 @@
                                     <div class="alert alert-danger alert-dismissible fade show">{{form.password2.errors}}</div>
                                 {% endif %}
                         </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_phone" class="form-label">Номер телефона (Необязательное поле)</label>
+                            <input type="phone" class="form-control" id="id_phone"
+                                value="{% if form.phone.value %}{{ form.phone.value }}{% endif %}"
+                                name="phone"
+                                placeholder="Подтвердите пароль" required>
+                                {% if form.phone.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show">{{form.phone.errors}}</div>
+                                {% endif %}
+                        </div>
                     </div>
                     <button type="submit"
                         class="btn btn-secondary btn-dark btn-block">Зарегистрироваться</button>

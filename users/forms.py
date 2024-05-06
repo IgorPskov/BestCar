@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
+from phonenumber_field.formfields import PhoneNumberField
 
 from users.models import User
 
@@ -12,6 +13,7 @@ class UserLoginForm(AuthenticationForm):
 
     
 class UserRegistrationForm(UserCreationForm):
+    phone = PhoneNumberField(required = False)
 
     class Meta:
         model = User
@@ -22,6 +24,7 @@ class UserRegistrationForm(UserCreationForm):
             "email",
             "password1",
             "password2",
+            "phone"
         )
 
 
@@ -34,6 +37,7 @@ class ProfileForm(UserChangeForm):
             "last_name",
             "username",
             "email",
+            "phone",
         )
 
     image = forms.ImageField(required=False)
@@ -41,6 +45,6 @@ class ProfileForm(UserChangeForm):
     last_name = forms.CharField()
     username = forms.CharField()
     email = forms.CharField()
+    phone = PhoneNumberField(required = False)
 
-    if username == None:
-        username = "Anonymous"
+

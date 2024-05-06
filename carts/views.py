@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 
 from carts.models import Cart, Favorite
@@ -65,12 +65,19 @@ def cart_add(request):
 def cart_remove(request):
     cart_id = request.POST.get("cart_id")
 
-    cart = Cart.objects.get(id=cart_id)
+    if request.user.is_authenticated:
+        cart = get_object_or_404(Cart, id=cart_id, user=request.user)
+    else:
+        cart = get_object_or_404(Cart, id=cart_id, session_key=request.session.session_key)
 
     product_category = cart.product.category
     product_name = cart.product.name
 
-    quantity = Cart.objects.filter(user=request.user).count()
+    if request.user.is_authenticated:
+        quantity = Cart.objects.filter(user=request.user).count()
+    else:
+        quantity = Cart.objects.filter(session_key=request.session.session_key).count()
+
     cart.delete()
 
     user_cart = get_user_carts(request)
@@ -147,12 +154,20 @@ def favorite_remove(request):
 
     favorite_id = request.POST.get("favorite_id")
 
-    favorite = Favorite.objects.get(id=favorite_id)
+    if request.user.is_authenticated:
+        favorite = get_object_or_404(Favorite, id=favorite_id, user=request.user)
+    else:
+        favorite = get_object_or_404(Favorite, id=favorite_id, session_key=request.session.session_key)
+
 
     product_category = favorite.product.category
     product_name = favorite.product.name
 
-    quantity = Favorite.objects.filter(user=request.user).count()
+    if request.user.is_authenticated:
+        quantity = Favorite.objects.filter(user=request.user).count()
+    else:
+        quantity = Favorite.objects.filter(session_key=request.session.session_key).count()
+
     favorite.delete()
 
     user_favorite = get_user_favorites(request)

@@ -21,9 +21,25 @@ def login(request):
                 auth.login(request, user)
                 messages.success(request, f"{username}, Вы вошли в аккаунт")
 
+
                 if session_key:
-                    Cart.objects.filter(session_key=session_key).update(user=user)
-                    Favorite.objects.filter(session_key=session_key).update(user=user)
+                    carts = Cart.objects.filter(session_key=session_key)
+                    favorites = Favorite.objects.filter(session_key=session_key)
+                    
+                    if carts.exists():
+                        # Получаем товары из сессии и создаем их для пользователя, если их еще нет в его корзине
+                        for cart in carts:
+                            existing_cart = Cart.objects.filter(user=user, product=cart.product)
+                            if not existing_cart.exists():
+                                Cart.objects.create(user=user, product=cart.product)
+
+                    if favorites.exists():
+                        # Получаем товары из сессии и создаем их для пользователя, если их еще нет в его корзине
+                        for favorite in favorites:
+                            existing_favorite = Favorite.objects.filter(user=user, product=favorite.product)
+                            if not existing_favorite.exists():
+                                Favorite.objects.create(user=user, product=favorite.product)
+
 
                 redirect_page = request.POST.get('next', None)
                 if redirect_page and redirect_page != reverse('user:logout'):
@@ -53,8 +69,22 @@ def registration(request):
             messages.success(request, f"{user.username}, Вы успешно зарегистрированы и вошли в аккаунт")
 
             if session_key:
-                Cart.objects.filter(session_key=session_key).update(user=user)
-                Favorite.objects.filter(session_key=session_key).update(user=user)
+                    carts = Cart.objects.filter(session_key=session_key)
+                    favorites = Favorite.objects.filter(session_key=session_key)
+                    
+                    if carts.exists():
+                        # Получаем товары из сессии и создаем их для пользователя, если их еще нет в его корзине
+                        for cart in carts:
+                            existing_cart = Cart.objects.filter(user=user, product=cart.product)
+                            if not existing_cart.exists():
+                                Cart.objects.create(user=user, product=cart.product)
+
+                    if favorites.exists():
+                        # Получаем товары из сессии и создаем их для пользователя, если их еще нет в его корзине
+                        for favorite in favorites:
+                            existing_favorite = Favorite.objects.filter(user=user, product=favorite.product)
+                            if not existing_favorite.exists():
+                                Favorite.objects.create(user=user, product=favorite.product)
 
             return HttpResponseRedirect(reverse('main:index'))
     else:
