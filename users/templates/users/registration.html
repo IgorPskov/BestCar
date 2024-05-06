@@ -79,7 +79,7 @@
                             <input type="phone" class="form-control" id="id_phone"
                                 value="{% if form.phone.value %}{{ form.phone.value }}{% endif %}"
                                 name="phone"
-                                placeholder="Подтвердите пароль" required>
+                                placeholder="Номер телефона">
                                 {% if form.phone.errors %}
                                     <div class="alert alert-danger alert-dismissible fade show">{{form.phone.errors}}</div>
                                 {% endif %}
