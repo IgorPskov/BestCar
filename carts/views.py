@@ -4,7 +4,6 @@ from django.template.loader import render_to_string
 
 from carts.models import Cart, Favorite
 from cars.models import Products
-from carts.templatetags.carts_tags import user_favorites
 from carts.utils import get_user_carts, get_user_favorites
 
 def cart_add(request):
