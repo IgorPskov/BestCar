@@ -1,11 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
+{% load humanize %}
 
 {% load carts_tags %}
 
-{% block modal_favorite %}
-{% include "includes/favorite_button.html" %}
-{% endblock  %}
 
 {% block content %}
 <div class=" bg-white p-4 mb-4 mx-2 rounded custom-shadow">
@@ -63,6 +61,61 @@
                         <div>
                             КАРТА
                         </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label">Рассрочка: </label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="requires_installment"
+                                    id="id_requires_installment" value="1" checked>
+                                <label class="form-check-label" for="id_requires_installment">Да</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="requires_installment"
+                                    id="id_requires_installment" value="0">
+                                <label class="form-check-label" for="id_requires_installment">Нет</label>
+                            </div>
+                        </div>
+                        <!-- Модальное окно рассрочки -->
+                        <div class="installment">
+                            <form id="installmentForm" >
+                                <input type="hidden" name="product_slug" value="{{ product.slug }}">
+                                <p><strong>Общая цена корзины: {{ carts.total_price|intcomma }} руб.</strong></p>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Срок кредита</th>
+                                            <th>Ежемесячный платеж</th>
+                                            <th>Процентная ставка</th>
+                                            <th>Ваш выбор</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>24 месяца</td>
+                                            <td>{{ installment_24|intcomma }} руб.</td>
+                                            <td>5% годовых</td>
+                                            <td><input class="form-check-input" type="radio" name="installment"
+                                                id="id_installment" value="0" checked></td>
+                                        </tr>
+                                        <tr>
+                                            <td>36 месяцев</td>
+                                            <td>{{ installment_36|intcomma }} руб.</td>
+                                            <td>5% годовых</td>
+                                            <td><input class="form-check-input" type="radio" name="installment"
+                                                id="id_installment" value="1"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>60 месяцев</td>
+                                            <td>{{ installment_60|intcomma }} руб.</td>
+                                            <td>4% годовых</td>
+                                            <td><input class="form-check-input" type="radio" name="installment"
+                                                id="id_installment" value="2"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                </table>
+                            </form>
+                        </div>
+                        <!-- Модальное окно -->
                         <div class="col-md-12 mb-3">
                             <label class="form-label">Способ оплаты: </label>
                             <div class="form-check form-check-inline">

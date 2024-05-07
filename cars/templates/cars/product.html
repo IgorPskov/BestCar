@@ -85,48 +85,9 @@
                 Рассчитать кредит
             </button>
 
+            <!-- Модальное окно рассрочки -->
+            {% include "cars/includes/included_installment.html" %}
             <!-- Модальное окно -->
-            <div class="modal fade" id="installmentModal" tabindex="-1" aria-labelledby="installmentModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="installmentModalLabel">Варианты кредита</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="installmentForm" >
-                                <input type="hidden" name="product_slug" value="{{ product.slug }}">
-                                <p><strong>Цена товара: {{ product.sell_price }} руб.</strong></p>
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Срок кредита</th>
-                                            <th>Ежемесячный платеж</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>24 месяца</td>
-                                            <td>{{ installment_24 }} руб.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>36 месяцев</td>
-                                            <td>{{ installment_36 }} руб.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>60 месяцев</td>
-                                            <td>{{ installment_60 }} руб.</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <p class="card-text">{{ product.description }}</p>
             <a href="{% url "cart:favorite_add" %}" class="btn btn-success add-to-favorite"

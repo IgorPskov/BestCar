@@ -242,4 +242,14 @@ $(document).ready(function () {
             $("#deliveryAddressField").hide();
         }
     });
+
+    $("input[name='requires_installment']").change(function () {
+        var selectedValue = $(this).val();
+        // Скрываем или отображаем input ввода адреса доставки
+        if (selectedValue === "1") {
+            $(".installment").show();
+        } else {
+            $(".installment").hide();
+        }
+    });
 });
