@@ -25,14 +25,16 @@
                     {% endif %}
                 </div>
                 <h5 class="col p-0"><strong>Цена: {{cart.product_price|intcomma}} RUB</strong></h5>
-                <div class="col p-0">
-                    <a href="{% url "cart:cart_remove" %}" class="remove-from-cart" 
-                    data-cart-id="{{ cart.id }}">
-                        {% csrf_token %}
-                        <img class="mx-1" src="{% static "deps/icons/trash3-fill.svg" %}"
-                            alt="Catalog Icon" width="35" height="35">
-                    </a>
-                </div>
+                {% if not request.path == '/orders/create-order/' %}
+                    <div class="col p-0">
+                        <a href="{% url "cart:cart_remove" %}" class="remove-from-cart" 
+                        data-cart-id="{{ cart.id }}">
+                            {% csrf_token %}
+                            <img class="mx-1" src="{% static "deps/icons/trash3-fill.svg" %}"
+                                alt="Catalog Icon" width="35" height="35">
+                        </a>
+                    </div>
+                {% endif %}
             </div>
         </li>
     </ul>
