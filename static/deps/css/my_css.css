@@ -84,4 +84,9 @@ body {
   filter: invert(85%) sepia(100%) saturate(750%) hue-rotate(50deg) brightness(100%) contrast(100%);
 }
 
+.map {
+  width: 100%;
+  height: 400px;
+}
+
 

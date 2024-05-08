@@ -46,7 +46,7 @@ $(document).ready(function () {
                     favoriteCount++;
                     carsInFavoriteCount.text(favoriteCount);
                     
-                    // // Меняем содержимое корзины на ответ от django (новый отрисованный фрагмент разметки корзины)
+                    // // Меняем содержимое избранного на ответ от django (новый отрисованный фрагмент разметки избранного)
                     var favoriteItemsContainer = $("#favorite-items-container");
                     favoriteItemsContainer.html(data.favorite_items_html);
                 }
@@ -61,16 +61,16 @@ $(document).ready(function () {
 
 
 
-    // Ловим собыитие клика по кнопке удалить товар из корзины
+    // Ловим собыитие клика по кнопке удалить товар из избранного
     $(document).on("click", ".remove-from-favorite", function (e) {
         // Блокируем его базовое действие
         e.preventDefault();
 
-        // Берем элемент счетчика в значке корзины и берем оттуда значение
+        // Берем элемент счетчика в значке избранного и берем оттуда значение
         var carsInFavoriteCount = $("#cars-in-favorite-count");
         var favoriteCount = parseInt(carsInFavoriteCount.text() || 0);
 
-        // Получаем id корзины из атрибута data-cart-id
+        // Получаем id корзины из атрибута data-favorite-id
         var favorite_id = $(this).data("favorite-id");
         // Из атрибута href берем ссылку на контроллер django
         var remove_from_favorite = $(this).attr("href");
@@ -93,11 +93,11 @@ $(document).ready(function () {
                     successMessage.fadeOut(400);
                 }, 7000);
 
-                // Уменьшаем количество товаров в корзине (отрисовка)
+                // Уменьшаем количество товаров в избранном (отрисовка)
                 favoriteCount = data.quantity_deleted - 1;
                 carsInFavoriteCount.text(favoriteCount);
 
-                // Меняем содержимое корзины на ответ от django (новый отрисованный фрагмент разметки корзины)
+                // Меняем содержимое избранного на ответ от django (новый отрисованный фрагмент разметки избранного)
                 var favoriteItemsContainer = $("#favorite-items-container");
                 favoriteItemsContainer.html(data.favorite_items_html);
 
@@ -200,6 +200,168 @@ $(document).ready(function () {
     });
 
 
+    // Интерактивная карта для доставки
+    let center = [59.822693, 30.324582];
+
+    function init() {
+        // Стоимость за километр.
+        var DELIVERY_TARIFF = 20,
+        // Минимальная стоимость.
+            MINIMUM_COST = 500,
+            myMap = new ymaps.Map('map', {
+                center: center,
+                zoom: 7,
+                controls: []
+            }),
+
+            // Создадим панель маршрутизации.
+            routePanelControl = new ymaps.control.RoutePanel({
+                options: {
+                    // Добавим заголовок панели.
+                    showHeader: true,
+                    title: 'Расчёт доставки',
+                },
+            }),
+            zoomControl = new ymaps.control.ZoomControl({
+                options: {
+                    size: 'small',
+                    float: 'none',
+                    position: {
+                        bottom: 145,
+                        right: 10
+                    }
+                }
+            });
+    
+        let placemark = new ymaps.Placemark(center, {
+            balloonContentHeader: 'Автосалон BestCar',
+            balloonContentBody: 'Автомобили находятся здесь',
+            balloonContentFooter: 'Расчет расстояния и стоимости доставки происходит отсюда',
+        });
+
+        // Пользователь сможет построить только автомобильный маршрут.
+        routePanelControl.routePanel.options.set({
+            types: {auto: true},
+            allowSwitch: false,
+        });
+    
+
+        routePanelControl.routePanel.state.set({
+            fromEnabled: false,
+            from: center,
+         });
+    
+        myMap.controls.add(routePanelControl).add(zoomControl);
+    
+        // Получим ссылку на маршрут.
+        routePanelControl.routePanel.getRouteAsync().then(function (route) {
+    
+            // Зададим максимально допустимое число маршрутов, возвращаемых мультимаршрутизатором.
+            route.model.setParams({results: 1}, true);
+    
+            // Повесим обработчик на событие построения маршрута.
+            route.model.events.add('requestsuccess', function () {
+                var to = routePanelControl.routePanel.state.get('to');
+                if (to) {
+                    // Проверяем, находится ли точка в пределах России
+                    isInRussia(to, function(inRussia) {
+                        if (!inRussia) {
+                            alert('Пожалуйста, выберите точку в России.');
+                            routePanelControl.routePanel.state.set('to', null);
+                        } else {
+
+                        getAddress(to, function(address) {
+                            $("#id_delivery_address").val(address); // Выводим в textarea полный адрес
+                        });
+
+                            var activeRoute = route.getActiveRoute();
+                            if (activeRoute) {
+                                // Получим протяженность маршрута.
+                                var length = route.getActiveRoute().properties.get("distance"),
+                                // Вычислим стоимость доставки.
+                                    price = calculate(Math.round(length.value / 1000)),
+                                // Создадим макет содержимого балуна маршрута.
+                                    balloonContentLayout = ymaps.templateLayoutFactory.createClass(
+                                        '<span>Расстояние: ' + length.text + '.</span><br/>' +
+                                        '<span style="font-weight: bold; font-style: italic">Стоимость доставки: ' + price + ' р.</span>');
+                                // Зададим этот макет для содержимого балуна.
+                                route.options.set('routeBalloonContentLayout', balloonContentLayout);
+                                // Откроем балун.
+                                activeRoute.balloon.open();
+                                $(".delivery_price").html("<h4>Итоговая стоимость доставки: <strong>" + price + "</strong> руб.</h4>");
+                            }
+                        }
+                    });
+                };           
+            });
+
+        myMap.geoObjects.add(placemark);
+
+    
+        });
+        // Функция, вычисляющая стоимость доставки.
+        function calculate(routeLength) {
+            return Math.max(routeLength * DELIVERY_TARIFF, MINIMUM_COST);
+        }
+
+         // Функция, проверяющая, находится ли точка в России.
+        function isInRussia(point, callback) {
+            var geocoder = ymaps.geocode(point);
+            geocoder.then(
+                function (res) {
+                    var firstGeoObject = res.geoObjects.get(0);
+                    if (firstGeoObject) {
+                        var countryCode = firstGeoObject.properties.get('metaDataProperty.GeocoderMetaData.Address.country_code');
+                        callback(countryCode === 'RU');
+                    }
+                }
+            );
+        }
+
+        // Функция, получающая полный адрес точки.
+        function getAddress(point, callback) {
+            var geocoder = ymaps.geocode(point);
+            geocoder.then(
+                function (res) {
+                    var firstGeoObject = res.geoObjects.get(0);
+                    if (firstGeoObject) {
+                        var address = firstGeoObject.getAddressLine();
+                        callback(address);
+                    }
+                }
+            );
+        }
+
+        function showRoutePanel() {
+            // Показываем панель маршрутизации
+            routePanelControl.options.set('visible', true);
+            // Показываем панель масштабирования
+            zoomControl.options.set('visible', true);
+        }
+        
+        function hideRoutePanel() {
+            // Скрываем панель маршрутизации
+            routePanelControl.options.set('visible', false);
+            // Скрываем панель масштабирования
+            zoomControl.options.set('visible', false);
+        }
+
+        // Обработчик события радиокнопки выбора способа доставки
+        $("input[name='requires_delivery']").change(function () {
+            var selectedValue = $(this).val();
+            // Скрываем или отображаем input ввода адреса доставки
+            if (selectedValue === "1") {
+                showRoutePanel();
+            } else {
+                hideRoutePanel();
+            }
+    });
+
+    }
+
+    ymaps.ready(init);
+
+
 
     // Берем из разметки элемент по id - оповещения от django
     var notification = $('#notification');
@@ -238,8 +400,10 @@ $(document).ready(function () {
         // Скрываем или отображаем input ввода адреса доставки
         if (selectedValue === "1") {
             $("#deliveryAddressField").show();
+            $(".delivery_price").show();
         } else {
             $("#deliveryAddressField").hide();
+            $(".delivery_price").hide();
         }
     });
 
