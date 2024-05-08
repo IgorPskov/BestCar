@@ -94,7 +94,7 @@
                                 <label class="form-check-label" for="id_requires_installment">Нет</label>
                             </div>
                         </div>
-                        <!-- Модальное окно рассрочки -->
+                        <!-- окно рассрочки -->
                         <div class="installment">
                             <form id="installmentForm" >
                                 <p><strong>Общая цена корзины: {{ carts.total_price|intcomma }} руб.</strong></p>
@@ -113,28 +113,29 @@
                                             <td>{{ installment_24|intcomma }} руб.</td>
                                             <td>5% годовых</td>
                                             <td><input class="form-check-input" type="radio" name="installment"
-                                                id="id_installment" value="0" checked></td>
+                                                id="id_installment" value="1"></td>
                                         </tr>
                                         <tr>
                                             <td>36 месяцев</td>
                                             <td>{{ installment_36|intcomma }} руб.</td>
                                             <td>5% годовых</td>
                                             <td><input class="form-check-input" type="radio" name="installment"
-                                                id="id_installment" value="1"></td>
+                                                id="id_installment" value="2"></td>
                                         </tr>
                                         <tr>
                                             <td>60 месяцев</td>
                                             <td>{{ installment_60|intcomma }} руб.</td>
                                             <td>4% годовых</td>
                                             <td><input class="form-check-input" type="radio" name="installment"
-                                                id="id_installment" value="2"></td>
+                                                id="id_installment" value="3"></td>
                                         </tr>
                                     </tbody>
+                                    <input class="form-check-input" type="radio" name="installment"
+                                        id="id_installment" value="0" checked></td>
                                 </table>
                                 </table>
                             </form>
                         </div>
-                        <!-- Модальное окно -->
                         <div class="col-md-12 mb-3">
                             <label class="form-label">Способ оплаты: </label>
                             <div class="form-check form-check-inline">
