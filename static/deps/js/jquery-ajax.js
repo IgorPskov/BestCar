@@ -220,6 +220,7 @@ $(document).ready(function () {
                     // Добавим заголовок панели.
                     showHeader: true,
                     title: 'Расчёт доставки',
+                    autofocus: false,
                 },
             }),
             zoomControl = new ymaps.control.ZoomControl({
@@ -243,6 +244,7 @@ $(document).ready(function () {
         routePanelControl.routePanel.options.set({
             types: {auto: true},
             allowSwitch: false,
+            autofocus: false,
         });
     
 

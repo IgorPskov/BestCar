@@ -71,14 +71,12 @@ def create_order(request):
                     for cart_item in cart_items:
                         product = cart_item.product
                         category = cart_item.product.category
-                        name = cart_item.product.name
                         price = cart_item.product.sell_price()
 
                         OrderItem.objects.create(
                             order=order,
                             product=product,
                             category=category,
-                            name=name,
                             price=price,
                         )
 
