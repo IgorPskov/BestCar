@@ -5,7 +5,7 @@ from orders.models import OrderItem, Order
 
 class OrderItemTabulareAdmin(admin.TabularInline):
     model = OrderItem
-    fields = "category", "name", "price"
+    fields = "category", "product", "price"
     search_fields = (
         "product",
         "category",

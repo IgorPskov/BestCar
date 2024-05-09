@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load humanize %}
 
 {% block modal_favorite %}
 {% include "includes/favorite_button.html" %}
@@ -117,71 +118,64 @@
                     <!-- Разметка заказов -->
                     <div class="container">
                         <div class="accordion" id="accordionExample">
+                            {% for order in orders %}
                             <div class="accordion-item">
-                                <h2 class="accordion-header" id="heading1">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
-                                        Заказ № 256 - 09 сентября 2023 9:04 | Статус:<strong class="mx-2"> В обработке</strong>
+                                <h2 class="accordion-header" id="heading{{ order.id }}">
+                                    <button class="accordion-button" {% if order != orders.0 %}collapsed{% endif %} type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ order.id }}" aria-expanded="false" aria-controls="collapse">
+                                        Заказ № {{ order.id }} - {{ order.created_timestamp }} | Статус:<strong class="mx-2">{{ order.status }}</strong>
                                     </button>
                                 </h2>
-                                <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="heading1" data-bs-parent="#accordionExample">
+                                <div id="collapse{{ order.id }}" class="accordion-collapse collapse {% if order == orders.0 %}show{% endif %}" aria-labelledby="heading" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
                                         <table class="table table-dark table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>Товар</th>
-                                                    <th>Количество</th>
-                                                    <th>Цена</th>
+                                                    <th>Фото</th>
+                                                    <th>Автомобиль</th>
+                                                    <th>Характеристики</th>
                                                     <th>Общая стоимость</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                {% for item in order.orderitem_set.all %}
                                                 <tr>
-                                                    <td><a class="text-white" href="#">Комплект стол и три стула</a></td>
-                                                    <td>1</td>
-                                                    <td>255.00 $</td>
-                                                    <td>255.00 $</td>
+                                                    <td style="width: 30%;">{% if item.product.image %}
+                                                            <img src="{{ item.product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+                                                        {% else %}
+                                                            <img src={% static "deps/images/Not found image.jpg" %} class="card-img-top" alt="...">
+                                                        {% endif %}
+                                                    </td>
+                                                    <td style="width: 18%;"><p class="text-white">{{item.product.category}} {{ item.product.name }}</p></td>
+                                                    <td>
+                                                        <p class="d-flex justify-content-start ps-1" style="margin-bottom: 0;"><img style="filter: invert(100%);" src="{% static "deps/icons/calendar.svg" %}" alt="Calendar" 
+                                                            width="25" height="25">&nbsp; &nbsp;Год выпуска: {{ item.product.year }}</p>
+                                                        <p class="d-flex justify-content-start ps-1" style="margin-bottom: 0;"><img style="filter: invert(100%);" src="{% static "deps/icons/engine.svg" %}" alt="Engine" 
+                                                            width="25" height="25">&nbsp; &nbsp;Объем двигателя: {{ item.product.engine }} л.</p>
+                                                        <p class="d-flex justify-content-start ps-1" style="margin-bottom: 0;"><img style="filter: invert(100%);" src="{% static "deps/icons/power.svg" %}" alt="Power" 
+                                                            width="25" height="25">&nbsp; &nbsp;Мощность двигателя: {{ item.product.power }} л.с.</p>
+                                                        <p class="d-flex justify-content-start ps-1" style="margin-bottom: 0;"><img style="filter: invert(100%);" src="{% static "deps/icons/road.svg" %}" alt="Road" 
+                                                            width="25" height="25">&nbsp; &nbsp;Пробег: {{ item.product.mileage }} км</p>
+                                                        <p class="d-flex justify-content-start ps-1" style="margin-bottom: 0;"><img style="filter: invert(100%);" src="{% static "deps/icons/gearbox.svg" %}" alt="Gearbox" 
+                                                            width="25" height="25">&nbsp; &nbsp;Коробка передач: {{ item.product.gearbox }}&nbsp;</p>
+                                                        <p class="d-flex justify-content-start ps-1" style="margin-bottom: 0;"><img style="filter: invert(100%);" src="{% static "deps/icons/paint.svg" %}" alt="Paint" 
+                                                            width="25" height="25">&nbsp; &nbsp;Цвет: {{ item.product.color }}</p>
+                                                        <p class="d-flex justify-content-start ps-1" style="margin-bottom: 0;"><img style="filter: invert(100%);" src="{% static "deps/icons/fuel.svg" %}" alt="Fuel" 
+                                                            width="25" height="25">&nbsp; &nbsp;Топливо: {{ item.product.fuel }}</p>
+                                                    </td>
+                                                    <td style="width: 15%;">{{item.price|intcomma}} Руб.</td>
                                                     
                                                 </tr>
+                                                {% endfor %}
                                             </tbody>
                                         </table>
                                         <div class="d-flex justify-content-between">
                                             <p><strong>Итого:</strong></p>
-                                            <p><strong>255.00 $</strong></p>
-
+                                            <p><strong>{{order.total_price|intcomma}} Руб.</strong></p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="heading2">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
-                                        Заказ № 248 - 01 августа 2023 11:28 | Статус: <strong>Получен</strong>
-                                    </button>
-                                </h2>
-                                <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <table class="table table-dark table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Товар</th>
-                                                    <th>Количество</th>
-                                                    <th>Цена</th>
-                                                    <th>Общая стоимость</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td><a class="text-white" href="#">Стул офисный</a></td>
-                                                    <td>2</td>
-                                                    <td>30.00 $</td>
-                                                    <td>60.00 $</td>
-                                                    
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                     <!-- Закончилась разметка заказов -->
