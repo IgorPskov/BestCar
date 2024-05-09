@@ -67,9 +67,8 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(to=Order, on_delete=models.CASCADE, verbose_name="Заказ")
-    product = models.ForeignKey(to=Products, on_delete=models.SET_DEFAULT, null=True, verbose_name="Продукт", default=None)
+    product = models.ForeignKey(to=Products, on_delete=models.SET_DEFAULT, null=True, verbose_name="Модель", default=None)
     category = models.CharField(max_length=150, verbose_name='Марка')
-    name = models.CharField(max_length=150, verbose_name="Модель")
     price = models.PositiveIntegerField(default=0, verbose_name="Цена")
     created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name="Дата продажи")
 
@@ -84,5 +83,5 @@ class OrderItem(models.Model):
         return self.price()
     
     def __str__(self):
-        return f"Автомобиль {self.category} {self.name} | Заказ № {self.order.pk}"
+        return f"Автомобиль {self.category} {self.product} | Заказ № {self.order.pk}"
     
