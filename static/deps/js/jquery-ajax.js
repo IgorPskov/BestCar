@@ -288,7 +288,9 @@ $(document).ready(function () {
                                 route.options.set('routeBalloonContentLayout', balloonContentLayout);
                                 // Откроем балун.
                                 activeRoute.balloon.open();
-                                $(".delivery_price").html("<h4>Итоговая стоимость доставки: <strong>" + price + "</strong> руб.</h4>");
+                                //Выводим в input цену
+                                var priceWithRub = price + " руб.";
+                                $("#id_delivery_price").val(priceWithRub);
                             }
                         }
                     });
@@ -296,7 +298,6 @@ $(document).ready(function () {
             });
 
         myMap.geoObjects.add(placemark);
-
     
         });
         // Функция, вычисляющая стоимость доставки.
@@ -370,7 +371,7 @@ $(document).ready(function () {
         setTimeout(function () {
             notification.alert('close');
         }, 5000);
-    }
+    };
 
     $(document).ready(function() {
         setTimeout(function() {
@@ -400,10 +401,10 @@ $(document).ready(function () {
         // Скрываем или отображаем input ввода адреса доставки
         if (selectedValue === "1") {
             $("#deliveryAddressField").show();
-            $(".delivery_price").show();
+            $("#deliveryPriceField").show();
         } else {
             $("#deliveryAddressField").hide();
-            $(".delivery_price").hide();
+            $("#deliveryPriceField").hide();
         }
     });
 
@@ -417,3 +418,6 @@ $(document).ready(function () {
         }
     });
 });
+
+
+
