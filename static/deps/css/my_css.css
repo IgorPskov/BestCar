@@ -34,6 +34,20 @@ body {
   box-shadow: 2px 2px 15px 4px #914040; 
 }
 
+.badge-index {
+  position: absolute;
+  top: 5px;
+  left: 100px;
+  z-index: 5;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: cursive;
+  color: rgb(240, 84, 84);
+  box-shadow: 2px 2px 15px 4px #914040; 
+}
+
 .badge-banner {
   top: 80%;
   border-radius: 15px;
@@ -72,7 +86,7 @@ body {
 
 .catalog {
   min-height: 78vh
-} 
+}
 
 .add-to-favorite:hover img {
   /* Изменяем цвет иконки */

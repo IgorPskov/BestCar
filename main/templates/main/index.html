@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load humanize %}
 
 {% block modal_favorite %}
 {% include "includes/favorite_button.html" %}
@@ -10,13 +11,57 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="mt-5 pt-5"><strong>{{ content }}</strong></h1>
+
+    <div class="p-4 mt-4">
+        <h1 class="text">{{ content }}</h1>
+
+        <!-- Карусель -->
+        <div id="productCarousel" class="carousel slide mt-4 rounded custom-shadow" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for product in products %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="card border-primary ">
+                        <div class="d-flex justify-content-center">
+                            {% if product.image %}
+                            <img src="{{ product.image.url }}" class="index-img-top mt-1" alt="{{ product.name }}">
+                            {% else %}
+                            <img src="{% static "deps/images/Not found image.jpg" %}" class="card-img-top" alt="...">
+                            {% endif %}
+                            <button class="carousel-control-prev position-absolute pb-5 top-50 start-0 translate-middle-y border-0" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(100%);"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next position-absolute pb-5 top-50 end-0 translate-middle-y border-0" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true" style="filter: invert(100%);"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-between w-100">
+                            <a href="{% url "catalog:product" product.slug %}">
+                                <p class="card-title">
+                                    {% autoescape off %}
+                                    {% if product.headline_category or product.headline_name %}
+                                    {{product.headline_category}} {{product.headline_name}}
+                                    {% else %}
+                                    {{product.category}} {{ product.name }}
+                                    {% endif %}
+                                    {% endautoescape %}
+                                </p>
+                            </a>
+                            <div class="flex-column">
+                                {% if product.discount %}
+                                <p>Цена со скидкой: <strong>{{ product.sell_price|intcomma }} RUB</strong></p>
+                                {% else %}
+                                <p>Цена: <strong>{{ product.price|intcomma }} RUB</strong></p>         
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Конец карусели -->
+    </div>
 {% endblock content %}
 
-{% block footer %}
-<footer class="py-4 bg-dark bottom-0">
-    <div class="container">
-        <p class="m-0 text-center text-white">BestCar 2024</p>
-    </div>
-</footer>
-{% endblock footer %}

@@ -32,6 +32,18 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white text-white" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Каталог
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% tag_categories as categories %}
+                                {% for category in categories %}
+                                    <li><a class="dropdown-item text-white" href="{% url "catalog:index" category.slug %}">{{ category.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li> 
                         <li class="nav-item dropdown ">
                             <a class="nav-link dropdown-toggle text-white" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -82,24 +94,7 @@
         <div class="container">
             <!-- Каталог и корзина с фиксированным расположением на странице -->
             <div class="row mt-1 position-fixed z-3">
-                <!-- Каталог -->
-                <div class="dropdown mb-2">
-                    <button class="btn btn-secondary dropdown-toggle btn-dark" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Каталог
-                        <img class="mx-1" src="{% static "deps/icons/grid-fill.svg" %}" alt="Catalog Icon" width="16"
-                            height="16">
-                    </button>
-                    <ul class="dropdown-menu bg-dark" data-bs-theme="dark">
-                        
-                        {% tag_categories as categories %}
-                        {% for category in categories %}
-                            <li><a class="dropdown-item text-white" href="{% url "catalog:index" category.slug %}">{{ category.name }}</a></li>
-                        {% endfor %}
-
-                    </ul>
-                </div>
-                <!-- Значек корзины, вызывает модальное окно -->
+                <!-- Значек сердца, вызывает модальное окно -->
                 {% block modal_favorite %}
                 {% endblock %}                
                 <!-- Закончилась разметка модального окна -->
