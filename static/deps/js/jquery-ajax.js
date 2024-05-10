@@ -419,6 +419,8 @@ $(document).ready(function () {
             $(".installment").hide();
         }
     });
+
+    $("#djDebug").hide();
 });
 
 
