@@ -38,6 +38,14 @@ class Order(models.Model):
         (1, 'Да')
     ]
 
+    STATUS_OPTIONS = [
+        (0, 'В обработке'),
+        (1, 'Ожидает оплаты'),
+        (2, 'Готов к выдаче'),
+        (3, 'В доставке'),
+        (4, 'Завершен')
+    ]
+
 
     user = models.ForeignKey(to=User, on_delete=models.SET_DEFAULT, blank=True, null=True, verbose_name="Пользователь", default=None)
     first_name = models.CharField(max_length=100, verbose_name="Имя") 
@@ -51,9 +59,9 @@ class Order(models.Model):
     requires_installment = models.IntegerField(choices=REQUIRES_INSTALLMENT_OPTIONS, default=0, verbose_name="Требуется кредит")
     installment = models.IntegerField(choices=INSTALLMENT_OPTIONS, default=0, verbose_name="Вариант кредита")
     monthly_payment = models.IntegerField(default=0, verbose_name="Ежемесячный платеж")
-    payment_on_get = models.IntegerField(choices=PAYMENT_OPTIONS, default=0, verbose_name="Оплата при получении")
+    payment_on_get = models.IntegerField(choices=PAYMENT_OPTIONS,  verbose_name="Оплата при получении")
     is_paid = models.BooleanField(default=False, verbose_name="Оплачено")
-    status = models.CharField(max_length=50, default="В обработке", verbose_name="Статус заказа")
+    status = models.IntegerField(choices=STATUS_OPTIONS, default=0, verbose_name="Статус заказа")
 
     class Meta:
         db_table = "order"
