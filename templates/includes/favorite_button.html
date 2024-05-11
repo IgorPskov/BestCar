@@ -11,7 +11,7 @@
         <span id="cars-in-favorite-count">{{ favorites.total_quantity }}</span>
     </button>
 </div>
-<!-- Разметка модального окна корзины -->
+<!-- Разметка модального окна избранного -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -23,9 +23,9 @@
             <div class="modal-body">
                 <h3 class="text-center mb-4">Избранное</h3>
                 <div class="container" id="favorite-items-container">
-                    <!-- Разметка корзины -->
+                    <!-- Разметка избранного -->
                     {% include "carts/includes/included_favorite.html" %}
-                    <!-- Закончилась разметка корзины -->
+                    <!-- Закончилась разметка избранного -->
                 </div>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
             </div>
