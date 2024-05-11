@@ -38,7 +38,6 @@ def contact(request):
     context: dict[str, str] = {
         'title': 'BestCar - Контакты',
         'content': 'Контакты',
-        'text_on_page': 'Телефон: 8-911-378-52-08; Почта: kovil22@mail.ru'
     }
 
     return render(request, 'main/contact.html', context)
