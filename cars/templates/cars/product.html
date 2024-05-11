@@ -10,6 +10,10 @@
 {% include "includes/consultation_button.html" %}
 {% endblock %}
 
+{% block css %}
+    <link rel="stylesheet" href="{% static "deps/css/my_footer_css.css" %}">
+{% endblock %}
+
 {% block content %}
 <div class="container mt-5">
     <div class="card mb-4 custom-shadow">
@@ -122,3 +126,11 @@
     </div>
 </div>
 {% endblock %}
+
+{% block footer %}
+<footer class="py-4 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">BestCar 2024</p>
+    </div>
+</footer>
+{% endblock footer %}
