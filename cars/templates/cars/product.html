@@ -12,8 +12,12 @@
         <div class="row">
             <!-- Миниатюры -->
             <div class="col-md-5">
-                <img src="{{ product.image.url }}"
-                    class="img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal1">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}"
+                        class="img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal1">
+                {% else %}
+                    <img src="{% static "deps/images/Not found image.jpg" %}" class="card-img-top" alt="...">
+                {% endif %}
             </div>
             <div class="col-md-4">                        
                 <h2><strong>{{ product.category }}&nbsp;{{ product.name }}&nbsp;</strong></h2>
@@ -45,13 +49,25 @@
                             <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                        <img src="{{ product.image.url }}" class="d-block w-100" alt="Изображение 1">
+                                        {% if product.image %}
+                                            <img src="{{ product.image.url }}" class="d-block w-100" alt="Изображение 1">
+                                        {% else %}                              
+                                            <img src="{% static "deps/images/Not found image.jpg" %}" class="card-img-top" alt="...">
+                                        {% endif %}  
                                     </div>
                                     <div class="carousel-item">
+                                    {% if product.image2 %}
                                         <img src="{{ product.image2.url }}" class="d-block w-100" alt="Изображение 2">
+                                    {% else %}                              
+                                        <img src="{% static "deps/images/Not found image.jpg" %}" class="card-img-top" alt="...">
+                                    {% endif %}  
                                     </div>
                                     <div class="carousel-item">
+                                    {% if product.image3 %}
                                         <img src="{{ product.image3.url }}" class="d-block w-100" alt="Изображение 2">
+                                    {% else %}                              
+                                        <img src="{% static "deps/images/Not found image.jpg" %}" class="card-img-top" alt="...">
+                                    {% endif %}
                                     </div>
                                 </div>
                                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
