@@ -7,7 +7,8 @@ from django.urls import reverse
 
 from carts.models import Cart, Favorite
 from orders.models import Order, OrderItem
-from users.forms import ProfileForm, UserLoginForm, UserRegistrationForm
+from users.forms import ConsultForm, ProfileForm, UserLoginForm, UserRegistrationForm
+from users.models import Consult
 
 def login(request):
     if request.method == 'POST':
@@ -137,3 +138,19 @@ def logout(request):
     messages.success(request, f"{request.user.username}, Вы вышли из аккаунта")
     auth.logout(request)
     return redirect(reverse('main:index'))
+
+
+def create_consultation(request):
+    if request.method == 'POST':
+        form = ConsultForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Ваша заявка принята!")
+            return HttpResponseRedirect(reverse('main:index'))
+        else:
+            messages.warning(request, "Пожалуйста, заполните все поля корректно.")
+            return HttpResponseRedirect(reverse('main:index'))
+    else:
+        form = ConsultForm()
+
+    return render(request, 'main/index.html', {'form': form})

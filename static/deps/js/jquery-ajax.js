@@ -385,16 +385,28 @@ $(document).ready(function () {
         }, 5000);
     });
 
-    // При клике по значку корзины открываем всплывающее(модальное) окно
+    // При клике по значку избранного открываем всплывающее(модальное) окно
     $('#modalButton').click(function () {
         $('#exampleModal').appendTo('body');
 
         $('#exampleModal').modal('show');
     });
 
-    // Событие клик по кнопке закрыть окна корзины
+    // Событие клик по кнопке закрыть окна избранного
     $('#exampleModal .btn-close').click(function () {
         $('#exampleModal').modal('hide');
+    });
+
+    // При клике по значку консультации открываем всплывающее(модальное) окно
+    $('#modalButton2').click(function () {
+        $('#consultationModal').appendTo('body');
+
+        $('#consultationModal').modal('show');
+    });
+
+    // Событие клик по кнопке закрыть окна консультации
+    $('#consultationModal .btn-close').click(function () {
+        $('#consultationModal').modal('hide');
     });
 
     // Обработчик события радиокнопки выбора способа доставки

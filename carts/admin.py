@@ -32,7 +32,7 @@ class FavoriteTabAdmin(admin.TabularInline):
 class CartAdmin(admin.ModelAdmin):
     list_display = ['user_display', 'product_display', 'product', 'created_timestamp',]
     list_filter = ['created_timestamp', 'user', 'product__category', 'product' ]
-    readonly_fields = ('created_timestamp',)  
+    readonly_fields = ('created_timestamp', 'session_key')  
     fields = ['user', 'product', 'session_key', 'created_timestamp'] 
 
     def user_display(self, obj):

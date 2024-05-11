@@ -1,0 +1,41 @@
+{% load static %}
+
+<!-- Кнопка вызова модального окна -->
+<div>
+    <button type="button" class="btn btn-dark btn-secondary d-flex" id="modalButton2"
+        aria-expanded="false">
+        Получить консультацию
+    </button>
+</div>
+
+<!-- Модальное окно -->
+<div class="modal fade" id="consultationModal" tabindex="-1" aria-labelledby="consultationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="consultationModalLabel">Получите консультацию прямо сейчас</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Оставьте свой номер телефона, и мы позвоним вам в ближайшее время! </p>
+                <!-- Форма для ввода номера телефона и имени -->
+                    <form method="post" action="{% url 'users:create_consultation' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Имя</label>
+                            <input type="text" class="form-control" id="id_first_name" name="name"
+                            value="{% if form.first_name.value %}{{ form.first_name.value }}{% endif %}"
+                            placeholder="Введите ваше имя" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Номер телефона</label>
+                            <input type="phone" class="form-control" id="phone" name="phone"
+                                value="{% if form.phone.value %}{{ form.phone.value }}{% endif %}"
+                                placeholder="Введите номер телефона в формате X (XXX) XXX-XX-XX" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Отправить</button>
+                    </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -17,14 +17,14 @@ def cart_add(request):
         carts = Cart.objects.filter(user=request.user, product=product)
 
         if carts.exists():
-            # Если товар уже в избранном, возвращаем флаг already_in_favorite=True
+            # Если товар уже в корзине, возвращаем флаг already_in_cart=True
             response_data = {
                 "already_in_cart": True,
                 "warning_message": "Этот автомобиль уже добавлен к вам в корзину",
             }
         else:
 
-            Cart.objects.create(user=request.user, product=product)
+            Cart.objects.create(user = request.user, product=product)
             success_message = f"Автомобиль {product_category} {product_name} добавлен в корзину"
 
             response_data = {
@@ -37,14 +37,14 @@ def cart_add(request):
             session_key = request.session.session_key, product = product)
         
         if carts.exists():
-            # Если товар уже в избранном, возвращаем флаг already_in_favorite=True
+            # Если товар уже в корзине, возвращаем флаг already_in_cart=True
             response_data = {
                 "already_in_cart": True,
                 "warning_message": "Этот автомобиль уже добавлен к вам в корзину",
             }
         else:
 
-            Cart.objects.create(session_key=request.session.session_key, product=product)
+            Cart.objects.create(user = None, session_key=request.session.session_key, product=product)
             success_message = f"Автомобиль {product_category} {product_name} добавлен в корзину"
 
             response_data = {
@@ -67,7 +67,7 @@ def cart_remove(request):
     if request.user.is_authenticated:
         cart = get_object_or_404(Cart, id=cart_id, user=request.user)
     else:
-        cart = get_object_or_404(Cart, id=cart_id, session_key=request.session.session_key)
+        cart = get_object_or_404(Cart, id=cart_id, user=None, session_key=request.session.session_key)
 
     product_category = cart.product.category
     product_name = cart.product.name

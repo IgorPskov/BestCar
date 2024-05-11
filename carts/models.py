@@ -1,5 +1,6 @@
 from django.db import models
 
+from app import settings
 from cars.models import Products
 from users.models import User
 
@@ -13,7 +14,7 @@ class CartQuerySet(models.QuerySet):
 
 class Cart(models.Model):
 
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Пользователь')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Пользователь')
     product = models.ForeignKey(to=Products, on_delete=models.CASCADE, verbose_name='Автомобиль')
     session_key = models.CharField(max_length=32, null=True, blank=True)
     created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления')
@@ -27,9 +28,6 @@ class Cart(models.Model):
     
     def product_price(self):
         return self.product.sell_price()
-
-    def __str__(self):
-        return f'Корзина {self.user.username} | Автомобиль {self.product.name}'
 
 
 class FavoriteQuerySet(models.QuerySet):
