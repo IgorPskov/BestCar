@@ -65,6 +65,10 @@ body {
   color: rgb(255, 0, 0); /* Цвет жирного текста */
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .btn-credit {
   margin-bottom: 16px;
 }

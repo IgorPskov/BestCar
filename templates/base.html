@@ -13,9 +13,9 @@
     <!-- Стиль footer-a для главной страницы -->
     {% block css %}{% endblock %}
     <!-- Favicons for different platforms -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static "deps/favicon/apple-touch-icon.png" %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static "deps/favicon/favicon-32x32.png" %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static "deps/favicon/favicon-16x16.png" %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static "deps/favicon/favicon.ico" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static "deps/favicon/favicon.ico" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static "deps/favicon/favicon.ico" %}">
     <link rel="manifest" href="{% static "deps/favicon/site.webmanifest" %}">
     <title>{{ title }}</title>
 </head>
@@ -24,7 +24,9 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
             <div class="container">
-                <a class="navbar-brand" href="{% url "main:index" %}">BestCar</a>
+                <a class="navbar-brand" href="{% url "main:index" %}">
+                    <img src="{% static "deps/favicon/favicon.ico"  %}" style="width: 32px;" alt="BestCar Logo" class="logo">
+                    BestCar</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -50,9 +52,9 @@
                                 Информация
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item  text-white" href="{% url "main:payment" %}">Доставка и оплата</a></li>
+                                <li><a class="dropdown-item  text-white" href="{% url "main:about" %}">О нас</a></li>
                                 <li><a class="dropdown-item  text-white" href="{% url "main:contact" %}">Контактная информация</a></li>
-                                <li><a class="dropdown-item  text-white" href="{% url "main:about" %}">Про нас</a></li>
+                                <li><a class="dropdown-item  text-white" href="{% url "main:payment" %}">Доставка и оплата</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -72,7 +74,7 @@
                                 <li><a class="dropdown-item  text-white" href="{% url "user:profile" %}">Личный кабинет</a>
                                 </li>
                                 {% if user.is_admin or user.is_staff %}
-                                    <li><a class="dropdown-item  text-white" href="{% url "admin:index" %}">Админ панель</a></li>
+                                    <li><a class="dropdown-item  text-white" href="{% url "admin:index" %}">Панель администратора</a></li>
                                 {% endif %}
                                 <li>
                                     <hr class="dropdown-divider">

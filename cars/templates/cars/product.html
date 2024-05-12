@@ -22,7 +22,7 @@
             <div class="col-md-5">
                 {% if product.image %}
                     <img src="{{ product.image.url }}"
-                        class="img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal1">
+                        class="img-thumbnail cursor-pointer" data-bs-toggle="modal" data-bs-target="#imageModal1">
                 {% else %}
                     <img src="{% static "deps/images/Not found image.jpg" %}" class="card-img-top" alt="...">
                 {% endif %}
