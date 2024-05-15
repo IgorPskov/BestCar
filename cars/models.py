@@ -74,7 +74,7 @@ class Products(models.Model):
         max_length=15,
         verbose_name='Топливо'
     )
-    description = models.TextField(blank=True, null=True, verbose_name='Описание')
+    description = models.TextField(max_length=550, blank=True, null=True, verbose_name='Описание')
     image = models.ImageField(upload_to='cars_images', blank=True, null=True, verbose_name='Изображение1')
     image2 = models.ImageField(upload_to='cars_images', blank=True, null=True, verbose_name='Изображение2')
     image3 = models.ImageField(upload_to='cars_images', blank=True, null=True, verbose_name='Изображение3')
