@@ -14,16 +14,17 @@
 {% endblock %}
 
 {% block content %}
-    <div class="mt-5 pt-4 pb-4 ps-2 pe-2 bg-white custom-shadow rounded">
+    <div class="mt-3 pt-3 pb-3 ps-2 pe-2 bg-white custom-shadow rounded">
         <h2 class="m-2"><strong>{{ content }}</strong></h2>
         <p class="m-2">{{ text_on_page }}</p>
+        <img src="{{ image }}" alt="Картинка" class="img-fluid d-block mx-auto" style="max-height: 59vh;">
     </div>
 {% endblock content %}
 
 {% block footer %}
-<footer class="py-4 bg-dark">
+<footer class="py-2 bg-dark">
     <div class="container">
-        <p class="m-0 text-center text-white">BestCar 2024</p>
+        <p class="m-0 text-center text-white">Copyright &copy; BestCar 2024</p>
     </div>
 </footer>
-{% endblock footer %}
+{% endblock %}

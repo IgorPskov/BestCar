@@ -147,13 +147,12 @@
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="payment_on_get"
                                     id="id_payment_on_get" value="0" checked>
-                                <label class="form-check-label" for="id_payment_on_get">Оплата
-                                    картой</label>
+                                <label class="form-check-label" for="id_payment_on_get">Онлайн-оплата</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="payment_on_get"
                                     id="id_payment_on_get" value="1">
-                                <label class="form-check-label" for="id_payment_on_get">Наличными/картой
+                                <label class="form-check-label" for="id_payment_on_get">Наличными/по счету
                                     при получении</label>
                                 {% if form.payment_on_get.errors %}
                                     <div class="alert alert-danger alert-dismissible fade show">{{form.payment_on_get.errors}}</div>
@@ -170,7 +169,7 @@
 {% endblock %}  
 
 {% block footer %}
-<footer class="py-4 bg-dark">
+<footer class="py-2 bg-dark">
     <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; BestCar 2024</p>
     </div>
