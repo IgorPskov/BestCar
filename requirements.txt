@@ -22,3 +22,4 @@ stack-data==0.6.3
 typing_extensions==4.8.0
 tzdata==2023.3
 wcwidth==0.2.10
+gunicorn==20.1.0
